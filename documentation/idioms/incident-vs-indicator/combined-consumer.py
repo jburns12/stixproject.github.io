@@ -7,12 +7,11 @@ The following code requires python-stix v1.1.1.0 or greater installed.
 For installation instructions, please refer to https://github.com/STIXProject/python-stix.
 '''
 
+import sys
 from stix.core import STIXPackage
 
 
-def main():
-    stix_package = STIXPackage.from_xml('sample-combined.xml')
-
+def parse_stix(stix_package):
     data = {
         'incidents': {
         }
@@ -46,4 +45,12 @@ def main():
     print(data)
 
 if __name__ == '__main__':
-    main()
+    try:
+        fname = sys.argv[1]
+    except:
+        exit(1)
+
+    fd = open(fname)
+    stix_pkg = STIXPackage.from_xml(fd)
+
+    parse_stix(stix_pkg)
